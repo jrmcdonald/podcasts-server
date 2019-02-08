@@ -5,6 +5,13 @@ services:
      restart: always
      volumes:
       - app_data:/data
+  app:
+     image: podcasts-app
+     restart: always
+     ports: 
+      - 8080:8080
+     volumes:
+      - app_data:/data
 
 volumes:
   app_data:
