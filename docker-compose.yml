@@ -1,12 +1,12 @@
 version: '3'
 services:
   downloader:
-     image: jrmcdonald/podcasts-downloader
+     image: jrmcdonald/podcasts/downloader
      restart: always
      volumes:
       - app_data:/data
   app:
-     image: podcasts-app
+     image: jrmcdonald/podcasts/app
      restart: always
      ports: 
       - 8080:8080
