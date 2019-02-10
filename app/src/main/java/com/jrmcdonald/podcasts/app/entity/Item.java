@@ -1,11 +1,18 @@
 package com.jrmcdonald.podcasts.app.entity;
 
-import java.util.Date;;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Item
  */
 public class Item {
+
+    private static final Logger logger = LoggerFactory.getLogger(Item.class);
 
     private String title;
     private String link;
@@ -16,56 +23,56 @@ public class Item {
      * @return the title
      */
     public String getTitle() {
-      return title;
+        return title;
     }
 
     /**
      * @param title the title to set
      */
     public void setTitle(String title) {
-      this.title = title;
+        this.title = title;
     }
 
     /**
      * @return the link
      */
     public String getLink() {
-      return link;
+        return link;
     }
 
     /**
      * @param link the link to set
      */
     public void setLink(String link) {
-      this.link = link;
+        this.link = link;
     }
 
     /**
      * @return the enclosure
      */
     public String getEnclosure() {
-      return enclosure;
+        return enclosure;
     }
 
     /**
      * @param enclosure the enclosure to set
      */
     public void setEnclosure(String enclosure) {
-      this.enclosure = enclosure;
+        this.enclosure = enclosure;
     }
 
     /**
      * @return the pubDate
      */
     public Date getPubDate() {
-      return pubDate;
+        return pubDate;
     }
 
     /**
      * @param pubDate the pubDate to set
      */
     public void setPubDate(Date pubDate) {
-      this.pubDate = pubDate;
+        this.pubDate = pubDate;
     }
 
     public static class ItemBuilder {
@@ -74,7 +81,7 @@ public class Item {
         private String link;
         private String enclosure;
         private Date pubDate;
-        
+
         public ItemBuilder title(final String title) {
             this.title = title;
             return this;
@@ -87,6 +94,18 @@ public class Item {
 
         public ItemBuilder enclosure(final String enclosure) {
             this.enclosure = enclosure;
+            return this;
+        }
+
+        public ItemBuilder pubDate(final String pubDate) {
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDD");
+
+            try {
+                this.pubDate = sdf.parse(pubDate);
+            } catch (ParseException e) {
+                logger.error("Unable to parse Item date: {}", pubDate);
+            }
+
             return this;
         }
 

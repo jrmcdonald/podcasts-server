@@ -1,23 +1,22 @@
 package com.jrmcdonald.podcasts.app.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jrmcdonald.podcasts.app.entity.Channel;
-import com.jrmcdonald.podcasts.app.entity.Item;
 import com.jrmcdonald.podcasts.app.entity.Channel.ChannelBuilder;
+import com.jrmcdonald.podcasts.app.entity.Item;
 import com.jrmcdonald.podcasts.app.entity.Item.ItemBuilder;
-import org.jboss.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChannelService {
 
-    Logger logger = Logger.getLogger(ChannelService.class);
+    Logger logger = LoggerFactory.getLogger(ChannelService.class);
 
     @Value("${app.file.source}")
     private String fileSource;
@@ -122,10 +121,12 @@ public class ChannelService {
             JsonNode rootNode = objectMapper.readTree(metaFile.toFile());
 
             String title = rootNode.get("title").asText();
+            String pubDate = rootNode.get("upload_date").asText();
 
             ItemBuilder builder = new ItemBuilder();
 
             item = builder.title(title)
+                    .pubDate(pubDate)
                     .build();
         } catch (IOException e) {
             logger.error("Unable to build item: {}", e);
