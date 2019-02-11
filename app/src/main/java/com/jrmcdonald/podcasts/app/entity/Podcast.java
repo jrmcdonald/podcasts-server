@@ -10,7 +10,7 @@ import com.jrmcdonald.podcasts.app.util.View;
  * Channel
  */
 @JsonView(View.Full.class)
-public class Channel {
+public class Podcast {
 
     private String channelId;
     private String title;
@@ -20,7 +20,7 @@ public class Channel {
     private String author;
 
     @JsonView(View.Limited.class)
-    private List<Item> items;
+    private List<PodcastItem> items;
 
     /**
      * @return the channelId
@@ -109,9 +109,9 @@ public class Channel {
     /**
      * @return the items
      */
-    public List<Item> getItems() {
+    public List<PodcastItem> getItems() {
         if (items == null) {
-            items = new ArrayList<Item>();
+            items = new ArrayList<PodcastItem>();
         }
 
         return items;
@@ -120,22 +120,22 @@ public class Channel {
     /**
      * @param items the items to set
      */
-    public void setItems(List<Item> items) {
+    public void setItems(List<PodcastItem> items) {
         this.items = items;
     }
 
     /**
      * @param item the item to add
      */
-    public void addItem(Item item) {
+    public void addItem(PodcastItem item) {
         if (items == null) {
-            items = new ArrayList<Item>();
+            items = new ArrayList<PodcastItem>();
         }
 
         items.add(item);
     }
 
-    public static class ChannelBuilder {
+    public static class PodcastBuilder {
 
         private String channelId;
         private String title;
@@ -144,38 +144,38 @@ public class Channel {
         private String image;
         private String author;
 
-        public ChannelBuilder id(final String channelId) {
+        public PodcastBuilder id(final String channelId) {
             this.channelId = channelId;
             return this;
         }
 
-        public ChannelBuilder title(final String title) {
+        public PodcastBuilder title(final String title) {
             this.title = title;
             return this;
         }
 
-        public ChannelBuilder link(final String link) {
+        public PodcastBuilder link(final String link) {
             this.link = link;
             return this;
         }
 
-        public ChannelBuilder description(final String description) {
+        public PodcastBuilder description(final String description) {
             this.description = description;
             return this;
         }
 
-        public ChannelBuilder image(final String image) {
+        public PodcastBuilder image(final String image) {
             this.image = image;
             return this;
         }
 
-        public ChannelBuilder author(final String author) {
+        public PodcastBuilder author(final String author) {
             this.author = author;
             return this;
         }
 
-        public Channel build() {
-            Channel channel = new Channel();
+        public Podcast build() {
+            Podcast channel = new Podcast();
 
             channel.setChannelId(channelId);
             channel.setTitle(title);

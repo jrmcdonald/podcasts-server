@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jrmcdonald.podcasts.app.entity.Channel;
-import com.jrmcdonald.podcasts.app.entity.Channel.ChannelBuilder;
-import com.jrmcdonald.podcasts.app.entity.Enclosure;
-import com.jrmcdonald.podcasts.app.entity.Item;
-import com.jrmcdonald.podcasts.app.entity.Item.ItemBuilder;
+import com.jrmcdonald.podcasts.app.entity.Podcast;
+import com.jrmcdonald.podcasts.app.entity.Podcast.PodcastBuilder;
+import com.jrmcdonald.podcasts.app.entity.PodcastItem;
+import com.jrmcdonald.podcasts.app.entity.PodcastItem.ItemBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,8 @@ public class ChannelService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public List<Channel> getChannels() {
-        List<Channel> channels = new ArrayList<Channel>();
+    public List<Podcast> getChannels() {
+        List<Podcast> channels = new ArrayList<Podcast>();
 
         try {
             Files.list(Paths.get(fileSource))
@@ -49,14 +48,14 @@ public class ChannelService {
         return channels;
     }
 
-    public Channel getChannel(String channelId) {
+    public Podcast getChannel(String channelId) {
        Path path = Paths.get(fileSource + '/' + channelId); 
 
        return parseChannelDir(path);
     }
 
-    private Channel parseChannelDir(Path channelDir) {
-        Channel channel = null;
+    private Podcast parseChannelDir(Path channelDir) {
+        Podcast channel = null;
 
         try {
             List<Path> metaFiles = Files.list(channelDir)
@@ -83,8 +82,8 @@ public class ChannelService {
     }
 
 
-    private Channel buildChannelFromFirstMetaFile(Path metaFile) {
-        Channel channel = null;
+    private Podcast buildChannelFromFirstMetaFile(Path metaFile) {
+        Podcast channel = null;
 
         try {
             JsonNode rootNode = objectMapper.readTree(metaFile.toFile());
@@ -101,7 +100,7 @@ public class ChannelService {
             String image = rootNode.get("thumbnails").get(0).get("url").asText();
             String author = rootNode.get("playlist_uploader").asText();
 
-            ChannelBuilder builder = new ChannelBuilder();
+            PodcastBuilder builder = new PodcastBuilder();
 
             channel = builder.id(channelId)
                     .title(title)
@@ -116,8 +115,8 @@ public class ChannelService {
 
         return channel;
     }
-    private Item buildItemFromMetaFile(Path metaFile) {
-        Item item = null;
+    private PodcastItem buildItemFromMetaFile(Path metaFile) {
+        PodcastItem item = null;
 
         try {
             JsonNode rootNode = objectMapper.readTree(metaFile.toFile());
@@ -132,15 +131,13 @@ public class ChannelService {
 
             long length = rootNode.get("duration").asLong();
 
-            Enclosure enclosure = new Enclosure(url, length);
-
             ItemBuilder builder = new ItemBuilder();
 
             item = builder.title(title)
                     .pubDate(pubDate)
                     .link(url)
                     .description(description)
-                    .enclosure(enclosure)
+                    .length(length)
                     .guid(url)
                     .build();
         } catch (IOException e) {

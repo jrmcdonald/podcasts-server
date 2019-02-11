@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 /**
  * Item
  */
-public class Item {
+public class PodcastItem {
 
-    private static final Logger logger = LoggerFactory.getLogger(Item.class);
+    private static final Logger logger = LoggerFactory.getLogger(PodcastItem.class);
 
     private String title;
     private String link;
     private String description;
-    private Enclosure enclosure;
+    private long length;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date pubDate;
@@ -68,17 +68,17 @@ public class Item {
     }
 
     /**
-     * @return the enclosure
+     * @return the length
      */
-    public Enclosure getEnclosure() {
-        return enclosure;
+    public long getLength() {
+      return length;
     }
 
     /**
-     * @param enclosure the enclosure to set
+     * @param length the length to set
      */
-    public void setEnclosure(Enclosure enclosure) {
-        this.enclosure = enclosure;
+    public void setLength(long length) {
+      this.length = length;
     }
 
     /**
@@ -114,7 +114,7 @@ public class Item {
         private String title;
         private String link;
         private String description;
-        private Enclosure enclosure;
+        private long length;
         private Date pubDate;
         private String guid;
 
@@ -133,8 +133,8 @@ public class Item {
             return this;            
         }
 
-        public ItemBuilder enclosure(final Enclosure enclosure) {
-            this.enclosure = enclosure;
+        public ItemBuilder length(final long length) {
+            this.length = length;
             return this;
         }
 
@@ -160,13 +160,13 @@ public class Item {
             return this;
         }
 
-        public Item build() {
-            Item item = new Item();
+        public PodcastItem build() {
+            PodcastItem item = new PodcastItem();
 
             item.setTitle(title);
             item.setLink(link);
             item.setDescription(description);
-            item.setEnclosure(enclosure);
+            item.setLength(length);
             item.setPubDate(pubDate);
             item.setGuid(guid);
 
