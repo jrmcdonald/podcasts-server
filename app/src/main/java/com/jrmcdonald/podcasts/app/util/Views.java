@@ -3,7 +3,7 @@ package com.jrmcdonald.podcasts.app.util;
 /**
  * JsonViews
  */
-public class View {
+public class Views {
 
     public static class Full {}
 

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.jrmcdonald.podcasts.app.util.UrlHelper;
-import com.jrmcdonald.podcasts.app.util.View;
+import com.jrmcdonald.podcasts.app.util.Views;
 
 /**
  * Channel
  */
-@JsonView(View.Full.class)
+@JsonView(Views.Full.class)
 public class Podcast {
 
     private String channelId;
@@ -19,7 +19,7 @@ public class Podcast {
     private String image;
     private String author;
 
-    @JsonView(View.Limited.class)
+    @JsonView(Views.Limited.class)
     private List<PodcastItem> items;
 
     /**
