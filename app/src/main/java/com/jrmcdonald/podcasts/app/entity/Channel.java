@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Feed
+ * Channel
  */
 public class Channel {
 

@@ -7,14 +7,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jrmcdonald.podcasts.app.entity.Channel;
 import com.jrmcdonald.podcasts.app.entity.Channel.ChannelBuilder;
+import com.jrmcdonald.podcasts.app.entity.Enclosure;
 import com.jrmcdonald.podcasts.app.entity.Item;
 import com.jrmcdonald.podcasts.app.entity.Item.ItemBuilder;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * FeedService
+ * ChannelService
  */
 @Service
 public class ChannelService {
@@ -61,6 +60,7 @@ public class ChannelService {
 
         try {
             List<Path> metaFiles = Files.list(channelDir)
+                    .sorted()
                     .filter(Files::isRegularFile)
                     .filter(p -> p.toString()
                     .endsWith(".json"))
@@ -122,11 +122,24 @@ public class ChannelService {
 
             String title = rootNode.get("title").asText();
             String pubDate = rootNode.get("upload_date").asText();
+            String description = rootNode.get("description").asText();
+            
+            String fileName = metaFile.getFileName().toString().replace("info.json", "mp3");
+            String resourcePath = "/files/" + rootNode.get("playlist_id").asText();
+            String url = resourcePath + "/" + fileName;
+
+            long length = rootNode.get("duration").asLong();
+
+            Enclosure enclosure = new Enclosure(url, length);
 
             ItemBuilder builder = new ItemBuilder();
 
             item = builder.title(title)
                     .pubDate(pubDate)
+                    .link(url)
+                    .description(description)
+                    .enclosure(enclosure)
+                    .guid(url)
                     .build();
         } catch (IOException e) {
             logger.error("Unable to build item: {}", e);
