@@ -4,12 +4,13 @@ RUN apk --no-cache add \
         ffmpeg \
         findutils
 
-COPY ./config/youtube-dl.conf /etc/youtube-dl.conf
-COPY ./config/crontab /crontab
+COPY ./src/main/resources/youtube-dl.conf /etc/youtube-dl.conf
+COPY ./src/main/resources/crontab /crontab
 
 RUN crontab /crontab
 
-COPY . /app
+COPY ./src/main/resources/requirements.txt /app/requirements.txt
+COPY ./src/main/sh/download.sh /app/download.sh
 WORKDIR /app
 
 RUN chmod +x download.sh

@@ -2,17 +2,13 @@ NAME   := jrmcdonald/podcasts-downloader
 IMG    := "${NAME}:$(TAG)"
 LATEST := "${NAME}:latest"
 
-deploy: install tag-latest push push-latest
+all: install deploy
 
 install:
 	@docker build -t ${IMG} .
-
-tag-latest:
 	@docker tag ${IMG} ${LATEST}
  
-push:
+deploy:
 	@docker push ${IMG}
-
-push-latest:
 	@docker push ${LATEST}
 
