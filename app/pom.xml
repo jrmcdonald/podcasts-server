@@ -8,11 +8,9 @@
         <version>2.1.2.RELEASE</version>
         <relativePath/>
     </parent>
-    <groupId>com.jrmcdonald.podcasts</groupId>
+    <groupId>com.jrmcdonald</groupId>
     <artifactId>podcasts-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
