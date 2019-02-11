@@ -2,18 +2,39 @@ package com.jrmcdonald.podcasts.app.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.jrmcdonald.podcasts.app.util.UrlHelper;
+import com.jrmcdonald.podcasts.app.util.View;
 
 /**
  * Channel
  */
+@JsonView(View.Full.class)
 public class Channel {
 
+    private String channelId;
     private String title;
     private String link;
     private String description;
     private String image;
     private String author;
+
+    @JsonView(View.Limited.class)
     private List<Item> items;
+
+    /**
+     * @return the channelId
+     */
+    public String getChannelId() {
+        return channelId;
+    }
+
+    /**
+     * @param channelId the channelId to set
+     */
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
+    }
 
     /**
      * @return the title
@@ -33,7 +54,7 @@ public class Channel {
      * @return the link
      */
     public String getLink() {
-        return link;
+        return UrlHelper.prefixWithBaseUrl(link);
     }
 
     /**
@@ -116,11 +137,17 @@ public class Channel {
 
     public static class ChannelBuilder {
 
+        private String channelId;
         private String title;
         private String link;
         private String description;
         private String image;
         private String author;
+
+        public ChannelBuilder id(final String channelId) {
+            this.channelId = channelId;
+            return this;
+        }
 
         public ChannelBuilder title(final String title) {
             this.title = title;
@@ -150,6 +177,7 @@ public class Channel {
         public Channel build() {
             Channel channel = new Channel();
 
+            channel.setChannelId(channelId);
             channel.setTitle(title);
             channel.setLink(link);
             channel.setDescription(description);

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jrmcdonald.podcasts.app.util.UrlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class Item {
      * @return the link
      */
     public String getLink() {
-        return link;
+        return UrlHelper.prefixWithBaseUrl(link);
     }
 
     /**
@@ -98,7 +99,7 @@ public class Item {
      * @return the guid
      */
     public String getGuid() {
-      return guid;
+        return UrlHelper.prefixWithBaseUrl(guid);
     }
 
     /**

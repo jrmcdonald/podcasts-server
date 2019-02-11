@@ -90,10 +90,11 @@ public class ChannelService {
             JsonNode rootNode = objectMapper.readTree(metaFile.toFile());
 
             String title = rootNode.get("playlist_title").asText();
+            String channelId = rootNode.get("playlist_id").asText();
 
             StringBuilder sb = new StringBuilder();
             sb.append("/channels/");
-            sb.append(rootNode.get("playlist_id").asText());
+            sb.append(channelId);
             sb.append("/");
 
             String link = sb.toString();
@@ -102,7 +103,8 @@ public class ChannelService {
 
             ChannelBuilder builder = new ChannelBuilder();
 
-            channel = builder.title(title)
+            channel = builder.id(channelId)
+                    .title(title)
                     .link(link)
                     .description(title)
                     .image(image)

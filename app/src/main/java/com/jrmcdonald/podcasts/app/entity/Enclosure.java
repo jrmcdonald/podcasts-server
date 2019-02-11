@@ -1,5 +1,7 @@
 package com.jrmcdonald.podcasts.app.entity;
 
+import com.jrmcdonald.podcasts.app.util.UrlHelper;
+
 /**
  * Enclosure
  */
@@ -25,7 +27,7 @@ public class Enclosure {
      * @return the url
      */
     public String getUrl() {
-      return url;
+      return UrlHelper.prefixWithBaseUrl(url);
     }
 
     /**
