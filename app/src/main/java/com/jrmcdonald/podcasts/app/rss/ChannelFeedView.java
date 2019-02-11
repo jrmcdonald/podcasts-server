@@ -1,9 +1,7 @@
 package com.jrmcdonald.podcasts.app.rss;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
