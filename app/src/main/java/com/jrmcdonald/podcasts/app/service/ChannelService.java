@@ -81,7 +81,6 @@ public class ChannelService {
         return channel;
     }
 
-
     private Podcast buildChannelFromFirstMetaFile(Path metaFile) {
         Podcast channel = null;
 
@@ -115,6 +114,7 @@ public class ChannelService {
 
         return channel;
     }
+    
     private PodcastItem buildItemFromMetaFile(Path metaFile) {
         PodcastItem item = null;
 

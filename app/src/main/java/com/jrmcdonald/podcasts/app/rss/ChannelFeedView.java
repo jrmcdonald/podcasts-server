@@ -14,6 +14,7 @@ import com.rometools.rome.feed.rss.Content;
 import com.rometools.rome.feed.rss.Description;
 import com.rometools.rome.feed.rss.Enclosure;
 import com.rometools.rome.feed.rss.Guid;
+import com.rometools.rome.feed.rss.Image;
 import com.rometools.rome.feed.rss.Item;
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
@@ -35,6 +36,7 @@ public class ChannelFeedView extends AbstractRssFeedView {
         feed.setTitle(podcastChannel.getTitle());
         feed.setDescription(podcastChannel.getDescription());
         feed.setLink(podcastChannel.getLink());
+        feed.setImage(createImage(podcastChannel));
     }
 
     @Override
@@ -44,6 +46,14 @@ public class ChannelFeedView extends AbstractRssFeedView {
                 .stream()
                 .map(this::createItem)
                 .collect(Collectors.toList());
+    }
+
+    private Image createImage(Podcast podcast) {
+        Image image = new Image();
+        image.setTitle(podcast.getTitle());
+        image.setUrl(podcast.getImage());
+        image.setLink(podcast.getLink());
+        return image;
     }
 
     private Item createItem(PodcastItem podcastItem) {
