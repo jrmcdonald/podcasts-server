@@ -15,7 +15,9 @@ import org.springframework.web.servlet.View;
 
 
 /**
- * FeedController
+ * Channel controller.
+ * 
+ * @author Jamie McDonald
  */
 @Controller
 public class ChannelController {
@@ -23,13 +25,25 @@ public class ChannelController {
     @Autowired
     private ChannelService service;
 
+    /**
+     * Fetch a list of all available channels. 
+     * 
+     * <p>Filters the Items from the returned channels.
+     * 
+     * @return a list of {@link Podcast} objects.
+     */
     @JsonView(Views.Full.class)
     @GetMapping(value = "/channels", produces = "application/json")
     public @ResponseBody List<Podcast> getChannels() {
         return service.getChannels();
     }
      
-
+    /**
+     * Fetch a specific channel with items.
+     * 
+     * @param channelId the channel to fetch
+     * @return a {@link ChannelFeedView} rss feed
+     */
     @GetMapping(value = "/channels/{channelId}", produces = "application/rss+xml")
     public @ResponseBody View getChannel(@PathVariable("channelId") String channelId) {
         ChannelFeedView view = new ChannelFeedView(service.getChannel(channelId));

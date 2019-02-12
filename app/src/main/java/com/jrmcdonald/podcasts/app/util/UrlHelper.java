@@ -9,16 +9,29 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * UrlHelper
+ * URL Utilities class
+ * 
+ * @author Jamie McDonald
  */
 public class UrlHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(UrlHelper.class);
 
+    /**
+     * Prefix a specified URL fragment with the base URL from the current request.
+     * 
+     * @param url the URL fragment to prefix
+     * @return the prefixed URL
+     */
     public static String prefixWithBaseUrl(final String url) {
         return getBaseUrl() + url;
     }
 
+    /**
+     * Retrieve the base URL from the current request i.e. https://www.domain.com/
+     * 
+     * @return the base URL
+     */
     public static String getBaseUrl() {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest req = sra.getRequest();

@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * ChannelService
+ * Service class to build Podcasts and PodcastItems from metadata files.
+ * 
+ * @author Jamie McDonald
  */
 @Service
 public class ChannelService {
@@ -33,6 +35,11 @@ public class ChannelService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * Build a list of Podcast entities from the filesystem.
+     * 
+     * @return the list of {@link Podcast} entities
+     */
     public List<Podcast> getChannels() {
         List<Podcast> channels = new ArrayList<Podcast>();
 
@@ -48,12 +55,24 @@ public class ChannelService {
         return channels;
     }
 
+    /**
+     * Build a single Podcast entity.
+     * 
+     * @param channelId the Podcast to build.
+     * @return the {@link Podcast}
+     */
     public Podcast getChannel(String channelId) {
        Path path = Paths.get(fileSource + '/' + channelId); 
 
        return parseChannelDir(path);
     }
 
+    /**
+     * Parse the meta files for a specified Podcast.
+     * 
+     * @param channelDir the audio directory to parse
+     * @return the {@link Podcast}
+     */
     private Podcast parseChannelDir(Path channelDir) {
         Podcast channel = null;
 
@@ -81,6 +100,13 @@ public class ChannelService {
         return channel;
     }
 
+    /**
+     * Parse the first meta data file in the directory to build 
+     * the Podcast level details.
+     * 
+     * @param metaFile the json meta file to parse.
+     * @return the {@link Podcast}
+     */
     private Podcast buildChannelFromFirstMetaFile(Path metaFile) {
         Podcast channel = null;
 
@@ -115,6 +141,12 @@ public class ChannelService {
         return channel;
     }
     
+    /**
+     * Build a single PodcastItem from a json meta data file.
+     * 
+     * @param metaFile the json meta data file to parse
+     * @return the {@link PodcastItem}
+     */
     private PodcastItem buildItemFromMetaFile(Path metaFile) {
         PodcastItem item = null;
 
@@ -145,6 +177,5 @@ public class ChannelService {
         }
 
         return item;
-
     }
 }

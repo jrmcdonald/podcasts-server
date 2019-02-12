@@ -19,7 +19,9 @@ import com.rometools.rome.feed.rss.Item;
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
 /**
- * ChannelFeedView
+ * Implementation of {@link AbstractRssFeedView} to present an RSS feed of Podcasts.
+ * 
+ * @author Jamie McDonald
  */
 public class ChannelFeedView extends AbstractRssFeedView {
 
@@ -48,6 +50,12 @@ public class ChannelFeedView extends AbstractRssFeedView {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Create the /rss/channel/image element from a Podcast.
+     * 
+     * @param podcast the {@link Podcast} to get data from
+     * @return the {@link Image}
+     */
     private Image createImage(Podcast podcast) {
         Image image = new Image();
         image.setTitle(podcast.getTitle());
@@ -56,6 +64,12 @@ public class ChannelFeedView extends AbstractRssFeedView {
         return image;
     }
 
+    /**
+     * Create the /item/ element from a PodcastItem.
+     * 
+     * @param podcastItem the {@link PodcastItem} to get data from
+     * @return the {@link Item}
+     */
     private Item createItem(PodcastItem podcastItem) {
         Item item = new Item();
 
@@ -69,6 +83,12 @@ public class ChannelFeedView extends AbstractRssFeedView {
         return item;
     }
 
+    /**
+     * Create the /item/description element from a PodcastItem.
+     * 
+     * @param podcastItem the {@link PodcastItem} to get data from
+     * @return the {@link Description}
+     */
     private Description createDescription(PodcastItem podcastItem) {
         Description description = new Description();
         description.setType(Content.HTML);
@@ -76,12 +96,24 @@ public class ChannelFeedView extends AbstractRssFeedView {
         return description;
     }
     
+    /**
+     * Create the /item/guid element from a PodcastItem.
+     * 
+     * @param podcastItem the {@link PodcastItem} to get data from
+     * @return the {@link Guid}
+     */
     private Guid createGuid(PodcastItem podcastItem) {
         Guid guid = new Guid();
         guid.setValue(podcastItem.getGuid());
         return guid;
     }
 
+    /**
+     * Create the /item/enclosure list from a PodcastItem.
+     * 
+     * @param podcastItem the {@link PodcastItem} to get data from
+     * @return the list of {@link Enclosure}
+     */
     private List<Enclosure> createEnclosures(PodcastItem podcastItem) {
         Enclosure enclosure = new Enclosure();
         enclosure.setUrl(podcastItem.getLink());

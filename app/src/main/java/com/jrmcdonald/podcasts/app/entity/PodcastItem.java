@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Item
+ * Podcast Item entity.
+ * 
+ * @author Jamie McDonald
  */
 public class PodcastItem {
 
@@ -19,11 +21,10 @@ public class PodcastItem {
     private String link;
     private String description;
     private long length;
+    private String guid;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date pubDate;
-
-    private String guid;
 
     /**
      * @return the title

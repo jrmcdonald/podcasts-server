@@ -7,7 +7,9 @@ import com.jrmcdonald.podcasts.app.util.UrlHelper;
 import com.jrmcdonald.podcasts.app.util.Views;
 
 /**
- * Channel
+ * Podcast entity.
+ * 
+ * @author Jamie McDonald
  */
 @JsonView(Views.Full.class)
 public class Podcast {

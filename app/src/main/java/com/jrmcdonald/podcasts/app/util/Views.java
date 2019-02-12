@@ -1,7 +1,9 @@
 package com.jrmcdonald.podcasts.app.util;
 
 /**
- * JsonViews
+ * JsonView classes to limit the data exposed via JSON.
+ * 
+ * @author Jamie McDonald
  */
 public class Views {
 
