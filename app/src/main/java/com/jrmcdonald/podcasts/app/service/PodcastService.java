@@ -29,7 +29,7 @@ public class PodcastService {
 
     Logger logger = LoggerFactory.getLogger(PodcastService.class);
 
-    @Value("${app.file.source}")
+    @Value("${podcast.file.source}")
     private String fileSource;
 
     @Autowired

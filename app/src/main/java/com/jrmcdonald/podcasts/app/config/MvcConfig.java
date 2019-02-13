@@ -16,7 +16,7 @@ import org.springframework.web.servlet.resource.EncodedResourceResolver;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     
-    @Value("${app.file.source}")
+    @Value("${podcast.file.source}")
     private String fileSource;
 
     /**
