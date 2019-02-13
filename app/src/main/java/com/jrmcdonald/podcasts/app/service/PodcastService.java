@@ -25,9 +25,9 @@ import org.springframework.stereotype.Service;
  * @author Jamie McDonald
  */
 @Service
-public class ChannelService {
+public class PodcastService {
 
-    Logger logger = LoggerFactory.getLogger(ChannelService.class);
+    Logger logger = LoggerFactory.getLogger(PodcastService.class);
 
     @Value("${app.file.source}")
     private String fileSource;
@@ -40,44 +40,44 @@ public class ChannelService {
      * 
      * @return the list of {@link Podcast} entities
      */
-    public List<Podcast> getChannels() {
-        List<Podcast> channels = new ArrayList<Podcast>();
+    public List<Podcast> getPodcasts() {
+        List<Podcast> podcasts = new ArrayList<Podcast>();
 
         try {
             Files.list(Paths.get(fileSource))
                 .filter(Files::isDirectory)
-                .map(this::parseChannelDir)
-                .forEachOrdered(channels::add);
+                .map(this::parsePodcastDir)
+                .forEachOrdered(podcasts::add);
         } catch (IOException e) {
             logger.error("Unable to read source directory: {}", e);
         }
 
-        return channels;
+        return podcasts;
     }
 
     /**
      * Build a single Podcast entity.
      * 
-     * @param channelId the Podcast to build.
+     * @param podcastId the Podcast to build.
      * @return the {@link Podcast}
      */
-    public Podcast getChannel(String channelId) {
-       Path path = Paths.get(fileSource + '/' + channelId); 
+    public Podcast getPodcast(String podcastId) {
+       Path path = Paths.get(fileSource + '/' + podcastId); 
 
-       return parseChannelDir(path);
+       return parsePodcastDir(path);
     }
 
     /**
      * Parse the meta files for a specified Podcast.
      * 
-     * @param channelDir the audio directory to parse
+     * @param podcastDir the audio directory to parse
      * @return the {@link Podcast}
      */
-    private Podcast parseChannelDir(Path channelDir) {
-        Podcast channel = null;
+    private Podcast parsePodcastDir(Path podcastDir) {
+        Podcast podcast = null;
 
         try {
-            List<Path> metaFiles = Files.list(channelDir)
+            List<Path> metaFiles = Files.list(podcastDir)
                     .sorted()
                     .filter(Files::isRegularFile)
                     .filter(p -> p.toString()
@@ -85,19 +85,19 @@ public class ChannelService {
                     .collect(Collectors.toList());
             
             if (metaFiles.size() > 0) {
-                channel = buildChannelFromFirstMetaFile(metaFiles.get(0));
+                podcast = buildPodcastFromFirstMetaFile(metaFiles.get(0));
 
                 metaFiles.stream()
                         .filter(Files::isRegularFile)
                         .filter(p -> p.toString().endsWith(".json"))
                         .map(this::buildItemFromMetaFile)
-                        .forEachOrdered(channel::addItem);
+                        .forEachOrdered(podcast::addItem);
             }
         } catch (IOException e) {
             logger.debug("An exception occurred reading the filesystem: {}", e);
         }
 
-        return channel;
+        return podcast;
     }
 
     /**
@@ -107,7 +107,7 @@ public class ChannelService {
      * @param metaFile the json meta file to parse.
      * @return the {@link Podcast}
      */
-    private Podcast buildChannelFromFirstMetaFile(Path metaFile) {
+    private Podcast buildPodcastFromFirstMetaFile(Path metaFile) {
         Podcast channel = null;
 
         try {
@@ -117,7 +117,7 @@ public class ChannelService {
             String channelId = rootNode.get("playlist_id").asText();
 
             StringBuilder sb = new StringBuilder();
-            sb.append("/channels/");
+            sb.append("/podcasts/");
             sb.append(channelId);
             sb.append("/");
 

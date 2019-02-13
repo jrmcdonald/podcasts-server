@@ -23,28 +23,28 @@ import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
  * 
  * @author Jamie McDonald
  */
-public class ChannelFeedView extends AbstractRssFeedView {
+public class PodcastFeedView extends AbstractRssFeedView {
 
-    private Podcast podcastChannel;
+    private Podcast podcast;
 
-    public ChannelFeedView(final Podcast podcast) {
+    public PodcastFeedView(final Podcast podcast) {
         super();
-        this.podcastChannel = podcast;
+        this.podcast = podcast;
     }
 
     @Override
     protected void buildFeedMetadata(Map<String, Object> model, Channel feed,
             HttpServletRequest request) {
-        feed.setTitle(podcastChannel.getTitle());
-        feed.setDescription(podcastChannel.getDescription());
-        feed.setLink(podcastChannel.getLink());
-        feed.setImage(createImage(podcastChannel));
+        feed.setTitle(podcast.getTitle());
+        feed.setDescription(podcast.getDescription());
+        feed.setLink(podcast.getLink());
+        feed.setImage(createImage(podcast));
     }
 
     @Override
     protected List<Item> buildFeedItems(Map<String, Object> model, HttpServletRequest request,
             HttpServletResponse response) {
-        return podcastChannel.getItems()
+        return podcast.getItems()
                 .stream()
                 .map(this::createItem)
                 .collect(Collectors.toList());
