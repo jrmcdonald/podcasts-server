@@ -9,7 +9,7 @@ services:
      image: jrmcdonald/podcasts-app
      restart: always
      environment: 
-      - APP_FILE_SOURCE=/data/audio/
+      - PODCAST_FILE_SOURCE=/data/audio/
      ports: 
       - 80:8080
      volumes:
