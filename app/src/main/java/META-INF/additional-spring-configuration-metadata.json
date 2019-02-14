@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "podcast.file.source",
+  "type": "java.lang.String",
+  "description": "The filesystem location where podcast audio/metadata files are stored."
+}]}
