@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jrmcdonald.podcasts.app.constants.PodcastConstants;
 import com.jrmcdonald.podcasts.app.util.UrlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class PodcastItem {
     private long length;
     private String guid;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = PodcastConstants.OUTPUT_DATE_FORMAT)
     private Date pubDate;
 
     /**
@@ -140,7 +141,7 @@ public class PodcastItem {
         }
 
         public ItemBuilder withPubDate(final String pubDate) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat sdf = new SimpleDateFormat(PodcastConstants.INPUT_DATE_FORMAT);
 
             try {
                 this.pubDate = sdf.parse(pubDate);

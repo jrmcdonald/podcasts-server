@@ -4,6 +4,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jrmcdonald.podcasts.app.constants.PodcastConstants;
 
 /**
  * Podcast Metadata JSON Entity
@@ -19,10 +20,10 @@ public class PodcastMetaInfo {
     private String uploader;
 
     @JsonCreator
-    public PodcastMetaInfo(@JsonProperty(value = "playlist_id", required = true) final String id,
-                               @JsonProperty(value = "playlist_title", required = true) final String title,
-                               @JsonProperty(value = "thumbnails", required = false) final List<ThumbnailMetaInfo> thumbnails,
-                               @JsonProperty(value = "playlist_uploader", required = false) final String uploader) {
+    public PodcastMetaInfo(@JsonProperty(value = PodcastConstants.JSON_PLAYLIST_ID, required = true) final String id,
+                           @JsonProperty(value = PodcastConstants.JSON_PLAYLIST_TITLE, required = true) final String title,
+                           @JsonProperty(value = PodcastConstants.JSON_THUMBNAILS, required = false) final List<ThumbnailMetaInfo> thumbnails,
+                           @JsonProperty(value = PodcastConstants.JSON_PLAYLIST_UPLOADER, required = false) final String uploader) {
         this.id = id;
         this.title = title;
         this.thumbnails = thumbnails;

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.jrmcdonald.podcasts.app.constants.PodcastConstants;
 import com.jrmcdonald.podcasts.app.entity.Podcast;
 import com.jrmcdonald.podcasts.app.entity.PodcastItem;
 import com.rometools.rome.feed.rss.Channel;
@@ -96,11 +97,11 @@ public class PodcastFeedView extends AbstractRssFeedView {
     private Description createDescription(PodcastItem podcastItem) {
         Description description = new Description();
         description.setType(Content.HTML);
-        
+
         if (StringUtils.isNotEmpty(podcastItem.getDescription())) {
             description.setValue(podcastItem.getDescription());
         } else {
-            description.setValue("No description provided.");
+            description.setValue(PodcastConstants.NO_DESCRIPTION);
         }
 
         return description;
@@ -128,7 +129,7 @@ public class PodcastFeedView extends AbstractRssFeedView {
         Enclosure enclosure = new Enclosure();
         enclosure.setUrl(podcastItem.getLink());
         enclosure.setLength(podcastItem.getLength());
-        enclosure.setType("audio/mpeg");
+        enclosure.setType(PodcastConstants.MIME_TYPE_MPEG);
         return new ArrayList<Enclosure>(Arrays.asList(enclosure));
     }
 }

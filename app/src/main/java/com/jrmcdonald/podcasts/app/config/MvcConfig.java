@@ -1,5 +1,6 @@
 package com.jrmcdonald.podcasts.app.config;
 
+import com.jrmcdonald.podcasts.app.constants.PodcastConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.resource.EncodedResourceResolver;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     
-    @Value("${podcast.file.source}")
+    @Value(PodcastConstants.PODCAST_FILE_SOURCE)
     private String fileSource;
 
     /**

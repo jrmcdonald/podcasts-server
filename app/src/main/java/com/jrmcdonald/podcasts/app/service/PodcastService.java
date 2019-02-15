@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jrmcdonald.podcasts.app.constants.PodcastConstants;
 import com.jrmcdonald.podcasts.app.entity.Podcast;
 import com.jrmcdonald.podcasts.app.entity.Podcast.PodcastBuilder;
 import com.jrmcdonald.podcasts.app.entity.PodcastItem;
@@ -32,7 +33,7 @@ public class PodcastService {
 
     Logger logger = LoggerFactory.getLogger(PodcastService.class);
 
-    @Value("${podcast.file.source}")
+    @Value(PodcastConstants.PODCAST_FILE_SOURCE)
     private String fileSource;
 
     @Autowired
@@ -65,7 +66,7 @@ public class PodcastService {
      * @return the {@link Podcast}
      */
     public Podcast getPodcast(String podcastId) {
-       Path path = Paths.get(fileSource + '/' + podcastId); 
+       Path path = Paths.get(fileSource + PodcastConstants.PATH_SEP + podcastId); 
 
        return parsePodcastDir(path);
     }
@@ -84,7 +85,7 @@ public class PodcastService {
                     .sorted()
                     .filter(Files::isRegularFile)
                     .filter(p -> p.toString()
-                    .endsWith(".json"))
+                    .endsWith(PodcastConstants.EXT_JSON))
                     .collect(Collectors.toList());
             
             if (metaFiles.size() > 0) {
@@ -92,7 +93,7 @@ public class PodcastService {
 
                 metaFiles.stream()
                         .filter(Files::isRegularFile)
-                        .filter(p -> p.toString().endsWith(".json"))
+                        .filter(p -> p.toString().endsWith(PodcastConstants.EXT_JSON))
                         .map(this::buildItemFromMetaFile)
                         .forEachOrdered(podcast::addItem);
             }
@@ -180,9 +181,9 @@ public class PodcastService {
      */
     private String buildPodcastUrl(String id) {
         StringBuilder sb = new StringBuilder();
-        sb.append("/podcasts/");
+        sb.append(PodcastConstants.PODCASTS_BASE);
         sb.append(id);
-        sb.append("/");
+        sb.append(PodcastConstants.PATH_SEP);
         return sb.toString();
     }
 
@@ -195,10 +196,10 @@ public class PodcastService {
      */
     private String buildResourceUrl(final String fileName, final String id) {
         StringBuilder sb = new StringBuilder();
-        sb.append("/files/");
+        sb.append(PodcastConstants.FILES_BASE);
         sb.append(id);
-        sb.append("/");
-        sb.append(fileName.replace("info.json", "mp3"));
+        sb.append(PodcastConstants.PATH_SEP);
+        sb.append(fileName.replace(PodcastConstants.EXT_INFO_JSON, PodcastConstants.EXT_MP3));
         return sb.toString();
     }
 }

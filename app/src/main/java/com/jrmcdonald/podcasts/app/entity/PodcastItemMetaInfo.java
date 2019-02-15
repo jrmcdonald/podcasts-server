@@ -4,6 +4,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jrmcdonald.podcasts.app.constants.PodcastConstants;
 
 /**
  * Podcast Item Metadata JSON Entity
@@ -13,18 +14,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PodcastItemMetaInfo extends PodcastMetaInfo {
 
-    private String uploadDate;
-    private String description;
-    private long duration;
+  private String uploadDate;
+  private String description;
+  private long duration;
 
-    @JsonCreator
-    public PodcastItemMetaInfo(@JsonProperty(value = "playlist_id", required = true) final String id,
-                               @JsonProperty(value = "title", required = true) final String title,
-                               @JsonProperty(value = "thumbnails", required = false) final List<ThumbnailMetaInfo> thumbnails,
-                               @JsonProperty(value = "playlist_uploader", required = false) final String uploader, 
-                               @JsonProperty(value = "upload_date", required = true) final String uploadDate,
-                               @JsonProperty(value = "description", required = true) final String description,
-                               @JsonProperty(value = "duration", required = true) final long duration) {
+  @JsonCreator
+  public PodcastItemMetaInfo(@JsonProperty(value = PodcastConstants.JSON_PLAYLIST_ID, required = true) final String id,
+                             @JsonProperty(value = PodcastConstants.JSON_TITLE, required = true) final String title,
+                             @JsonProperty(value = PodcastConstants.JSON_THUMBNAILS, required = false) final List<ThumbnailMetaInfo> thumbnails,
+                             @JsonProperty(value = PodcastConstants.JSON_PLAYLIST_UPLOADER, required = false) final String uploader,
+                             @JsonProperty(value = PodcastConstants.JSON_UPLOAD_DATE, required = true) final String uploadDate,
+                             @JsonProperty(value = PodcastConstants.JSON_DESCRIPTION, required = true) final String description,
+                             @JsonProperty(value = PodcastConstants.JSON_DURATION, required = true) final long duration) {
       super(id, title, thumbnails, uploader);
 
       this.uploadDate = uploadDate;
