@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jrmconald</groupId>
+    <artifactId>podcasts-proxy</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <docker.repository>jrmcdonald</docker.repository>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.antrun.version>1.8</maven.antrun.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven.antrun.version}</version>
+                <executions>
+                    <execution>
+                        <id>make-install</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="make">
+                                    <arg value="REPOSITORY=${docker.repository}" />
+                                    <arg value="ARTIFACT=${project.artifactId}" />
+                                    <arg value="TAG=${project.version}" />
+                                    <arg value="install" />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>make-deploy</id>
+                        <phase>deploy</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="make">
+                                    <arg value="REPOSITORY=${docker.repository}" />
+                                    <arg value="ARTIFACT=${project.artifactId}" />
+                                    <arg value="TAG=${project.version}" />
+                                    <arg value="deploy" />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

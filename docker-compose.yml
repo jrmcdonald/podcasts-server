@@ -10,10 +10,21 @@ services:
      restart: always
      environment: 
       - PODCAST_FILE_SOURCE=/data/audio/
-     ports: 
-      - 80:8080
      volumes:
       - app_data:/data
+  proxy:
+      image: jrmcdonald/podcasts-proxy
+      restart: always
+      depends_on:
+        - app
+      ports:
+        - 80:80
+        - 443:443
+      volumes:
+        - passwd_data:/etc/apache2
+        - certs_data:/etc/letsencrypt/:ro
 
 volumes:
   app_data:
+  certs_data:
+  passwd_data:

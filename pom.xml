@@ -15,6 +15,7 @@
     <modules>
         <module>downloader</module>
         <module>app</module>
+        <module>proxy</module>
     </modules>
 
 </project>
