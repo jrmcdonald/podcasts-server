@@ -16,6 +16,7 @@ import com.rometools.rome.feed.rss.Enclosure;
 import com.rometools.rome.feed.rss.Guid;
 import com.rometools.rome.feed.rss.Image;
 import com.rometools.rome.feed.rss.Item;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
 /**
@@ -38,7 +39,10 @@ public class PodcastFeedView extends AbstractRssFeedView {
         feed.setTitle(podcast.getTitle());
         feed.setDescription(podcast.getDescription());
         feed.setLink(podcast.getLink());
-        feed.setImage(createImage(podcast));
+        
+        if (podcast.getImage() != null) {
+            feed.setImage(createImage(podcast));
+        }
     }
 
     @Override
@@ -92,7 +96,13 @@ public class PodcastFeedView extends AbstractRssFeedView {
     private Description createDescription(PodcastItem podcastItem) {
         Description description = new Description();
         description.setType(Content.HTML);
-        description.setValue(podcastItem.getDescription());
+        
+        if (StringUtils.isNotEmpty(podcastItem.getDescription())) {
+            description.setValue(podcastItem.getDescription());
+        } else {
+            description.setValue("No description provided.");
+        }
+
         return description;
     }
     

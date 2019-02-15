@@ -7,12 +7,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jrmcdonald.podcasts.app.entity.Podcast;
 import com.jrmcdonald.podcasts.app.entity.Podcast.PodcastBuilder;
 import com.jrmcdonald.podcasts.app.entity.PodcastItem;
 import com.jrmcdonald.podcasts.app.entity.PodcastItem.ItemBuilder;
+import com.jrmcdonald.podcasts.app.entity.PodcastItemMetaInfo;
+import com.jrmcdonald.podcasts.app.entity.PodcastMetaInfo;
+import com.jrmcdonald.podcasts.app.entity.ThumbnailMetaInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,37 +111,32 @@ public class PodcastService {
      * @return the {@link Podcast}
      */
     private Podcast buildPodcastFromFirstMetaFile(Path metaFile) {
-        Podcast channel = null;
+        Podcast podcast = null;
 
         try {
-            JsonNode rootNode = objectMapper.readTree(metaFile.toFile());
-
-            String title = rootNode.get("playlist_title").asText();
-            String channelId = rootNode.get("playlist_id").asText();
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("/podcasts/");
-            sb.append(channelId);
-            sb.append("/");
-
-            String link = sb.toString();
-            String image = rootNode.get("thumbnails").get(0).get("url").asText();
-            String author = rootNode.get("playlist_uploader").asText();
+            PodcastMetaInfo metaInfo = objectMapper.readValue(metaFile.toFile(), PodcastMetaInfo.class);
 
             PodcastBuilder builder = new PodcastBuilder();
 
-            channel = builder.id(channelId)
-                    .title(title)
-                    .link(link)
-                    .description(title)
-                    .image(image)
-                    .author(author)
-                    .build();
+            builder.id(metaInfo.getId())
+                .title(metaInfo.getTitle())
+                .link(buildPodcastUrl(metaInfo.getId()))
+                .description(metaInfo.getTitle())
+                .author(metaInfo.getUploader());
+            
+            if (metaInfo.getThumbnails() != null && !metaInfo.getThumbnails().isEmpty()) {
+                ThumbnailMetaInfo thumbnail = metaInfo.getThumbnails().get(0);
+                builder.image(thumbnail.getUrl());
+            }
+
+            podcast = builder.build();
+        } catch (JsonMappingException e) {
+            logger.error("Unable to parse {}: {}", metaFile.toString(), e);
         } catch (IOException e) {
-            logger.error("Unable to build channel: {}", e);
+            logger.error("Unable to build podcast from {}: {}", metaFile.toString(), e);
         }
 
-        return channel;
+        return podcast;
     }
     
     /**
@@ -151,31 +149,56 @@ public class PodcastService {
         PodcastItem item = null;
 
         try {
-            JsonNode rootNode = objectMapper.readTree(metaFile.toFile());
+            PodcastItemMetaInfo metaInfo = objectMapper.readValue(metaFile.toFile(), PodcastItemMetaInfo.class);
 
-            String title = rootNode.get("title").asText();
-            String pubDate = rootNode.get("upload_date").asText();
-            String description = rootNode.get("description").asText();
-            
-            String fileName = metaFile.getFileName().toString().replace("info.json", "mp3");
-            String resourcePath = "/files/" + rootNode.get("playlist_id").asText();
-            String url = resourcePath + "/" + fileName;
-
-            long length = rootNode.get("duration").asLong();
+            String resourceUrl = buildResourceUrl(metaFile.getFileName().toString(), metaInfo.getId());
 
             ItemBuilder builder = new ItemBuilder();
 
-            item = builder.title(title)
-                    .pubDate(pubDate)
-                    .link(url)
-                    .description(description)
-                    .length(length)
-                    .guid(url)
-                    .build();
+            builder.title(metaInfo.getTitle())
+                    .pubDate(metaInfo.getUploadDate())
+                    .link(resourceUrl)
+                    .description(metaInfo.getDescription())
+                    .length(metaInfo.getDuration())
+                    .guid(resourceUrl);
+
+            item = builder.build();
+        } catch (JsonMappingException e) {
+            logger.error("Unable to parse {}: {}", metaFile.toString(), e);
         } catch (IOException e) {
             logger.error("Unable to build item: {}", e);
         }
 
         return item;
+    }
+
+    /**
+     * Build a URL pointing to a specific podcast.
+     * 
+     * @param id the podcast id
+     * @return the podcast URL
+     */
+    private String buildPodcastUrl(String id) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("/podcasts/");
+        sb.append(id);
+        sb.append("/");
+        return sb.toString();
+    }
+
+    /**
+     * Build a URL pointing to a specific resource on the filesystem.
+     * 
+     * @param fileName the name of the resource
+     * @param id the podcast id that the resource belongs to
+     * @return the resource URL
+     */
+    private String buildResourceUrl(final String fileName, final String id) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("/files/");
+        sb.append(id);
+        sb.append("/");
+        sb.append(fileName.replace("info.json", "mp3"));
+        return sb.toString();
     }
 }
