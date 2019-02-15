@@ -119,27 +119,27 @@ public class PodcastItem {
         private Date pubDate;
         private String guid;
 
-        public ItemBuilder title(final String title) {
+        public ItemBuilder withTitle(final String title) {
             this.title = title;
             return this;
         }
 
-        public ItemBuilder link(final String link) {
+        public ItemBuilder withLink(final String link) {
             this.link = link;
             return this;
         }
 
-        public ItemBuilder description(final String description) {
+        public ItemBuilder withDescription(final String description) {
             this.description = description;
             return this;            
         }
 
-        public ItemBuilder length(final long length) {
+        public ItemBuilder withLength(final long length) {
             this.length = length;
             return this;
         }
 
-        public ItemBuilder pubDate(final String pubDate) {
+        public ItemBuilder withPubDate(final String pubDate) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
             try {
@@ -151,12 +151,12 @@ public class PodcastItem {
             return this;
         }
 
-        public ItemBuilder pubDate(final Date pubDate) {
+        public ItemBuilder withPubDate(final Date pubDate) {
             this.pubDate = pubDate;
             return this;
         }
 
-        public ItemBuilder guid(final String guid) {
+        public ItemBuilder withGuid(final String guid) {
             this.guid = guid;
             return this;
         }

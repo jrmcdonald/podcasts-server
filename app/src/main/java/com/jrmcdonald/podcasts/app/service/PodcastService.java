@@ -118,15 +118,15 @@ public class PodcastService {
 
             PodcastBuilder builder = new PodcastBuilder();
 
-            builder.id(metaInfo.getId())
-                .title(metaInfo.getTitle())
-                .link(buildPodcastUrl(metaInfo.getId()))
-                .description(metaInfo.getTitle())
-                .author(metaInfo.getUploader());
+            builder.withId(metaInfo.getId())
+                .withtTitle(metaInfo.getTitle())
+                .withLink(buildPodcastUrl(metaInfo.getId()))
+                .withDescription(metaInfo.getTitle())
+                .withAuthor(metaInfo.getUploader());
             
             if (metaInfo.getThumbnails() != null && !metaInfo.getThumbnails().isEmpty()) {
                 ThumbnailMetaInfo thumbnail = metaInfo.getThumbnails().get(0);
-                builder.image(thumbnail.getUrl());
+                builder.withImage(thumbnail.getUrl());
             }
 
             podcast = builder.build();
@@ -155,12 +155,12 @@ public class PodcastService {
 
             ItemBuilder builder = new ItemBuilder();
 
-            builder.title(metaInfo.getTitle())
-                    .pubDate(metaInfo.getUploadDate())
-                    .link(resourceUrl)
-                    .description(metaInfo.getDescription())
-                    .length(metaInfo.getDuration())
-                    .guid(resourceUrl);
+            builder.withTitle(metaInfo.getTitle())
+                    .withPubDate(metaInfo.getUploadDate())
+                    .withLink(resourceUrl)
+                    .withDescription(metaInfo.getDescription())
+                    .withLength(metaInfo.getDuration())
+                    .withGuid(resourceUrl);
 
             item = builder.build();
         } catch (JsonMappingException e) {

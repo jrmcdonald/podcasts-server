@@ -146,32 +146,32 @@ public class Podcast {
         private String image;
         private String author;
 
-        public PodcastBuilder id(final String channelId) {
+        public PodcastBuilder withId(final String channelId) {
             this.channelId = channelId;
             return this;
         }
 
-        public PodcastBuilder title(final String title) {
+        public PodcastBuilder withtTitle(final String title) {
             this.title = title;
             return this;
         }
 
-        public PodcastBuilder link(final String link) {
+        public PodcastBuilder withLink(final String link) {
             this.link = link;
             return this;
         }
 
-        public PodcastBuilder description(final String description) {
+        public PodcastBuilder withDescription(final String description) {
             this.description = description;
             return this;
         }
 
-        public PodcastBuilder image(final String image) {
+        public PodcastBuilder withImage(final String image) {
             this.image = image;
             return this;
         }
 
-        public PodcastBuilder author(final String author) {
+        public PodcastBuilder withAuthor(final String author) {
             this.author = author;
             return this;
         }
