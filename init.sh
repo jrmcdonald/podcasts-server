@@ -20,7 +20,7 @@
 #%
 #================================================================
 #- IMPLEMENTATION
-#-    version         ${SCRIPT_NAME} 0.0.1
+#-    version         ${SCRIPT_NAME} 1.0.0
 #-    author          Jamie McDonald
 #-    copyright       Copyright (c) Jamie McDonald
 #-    license         MIT
