@@ -23,18 +23,15 @@ services:
       volumes:
         - passwd_data:/etc/apache2
         - certs_data:/etc/letsencrypt
-        - certs_www:/var/www/certbot
   certbot:
     image: certbot/certbot
     restart: always
     volumes:
       - certs_data:/etc/letsencrypt
-      - certs_www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     
 
 volumes:
   app_data:
   certs_data:
-  certs_www:
   passwd_data:
