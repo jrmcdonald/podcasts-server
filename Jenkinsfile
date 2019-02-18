@@ -5,10 +5,13 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+    environment {
+        MAVEN_OPTS = '-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+    }
     stages {
         stage('build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -X -B -DskipTests clean installs '
             }
         }
         stage('test') { 
@@ -22,4 +25,4 @@ pipeline {
             }
         }
     }
-}
+}m
