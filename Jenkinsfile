@@ -1,7 +1,7 @@
 pipeline {
     agent {
-        docker {
-            image 'maven:3-alpine'
+        dockerfile {
+            filename 'Dockerfile.jenkins.maven'
             args '-v /root/.m2:/root/.m2'
         }
     }
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn -X -B -DskipTests clean installs '
+                sh 'mvn -X -B -DskipTests clean install'
             }
         }
         stage('test') { 
@@ -25,4 +25,4 @@ pipeline {
             }
         }
     }
-}m
+}
