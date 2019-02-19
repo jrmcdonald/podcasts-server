@@ -1,2 +1,2 @@
-FROM 'maven:alpine'
+FROM maven:alpine
 RUN apk add --update make
