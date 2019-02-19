@@ -2,11 +2,12 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile.jenkins.maven'
+            dir './jenkins/'
             args '-v /root/.m2:/root/.m2'
         }
     }
     environment {
-        MAVEN_OPTS = '-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+        MAVEN_OPTS = '-Xmx1024m'
     }
     stages {
         stage('build') {

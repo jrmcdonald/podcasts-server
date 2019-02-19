@@ -1,2 +1,0 @@
-FROM maven:alpine
-RUN apk add --update make
