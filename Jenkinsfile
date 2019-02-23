@@ -25,5 +25,13 @@ pipeline {
                 }
             }
         }
+        stage('deploy') {
+            when {
+                buildingTag()
+            }
+            steps {
+                sh 'mvn deploy'
+            }
+        }
     }
 }
