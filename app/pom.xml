@@ -5,7 +5,7 @@
 
     <groupId>com.jrmcdonald</groupId>
     <artifactId>podcasts-app</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-unit-test</version>
     <packaging>jar</packaging>
 
     <parent>
