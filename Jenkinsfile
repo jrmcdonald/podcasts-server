@@ -3,7 +3,6 @@ pipeline {
         dockerfile {
             filename 'Dockerfile.jenkins.maven'
             dir './jenkins/'
-            args '-v $HOME/.m2:/root/.m2'
         }
     }
     environment {
